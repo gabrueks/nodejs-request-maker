@@ -1,8 +1,9 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosStatic } from 'axios'
 // Axios retry doesnt accept ES6^
 const axiosRetry = require('axios-retry');
 
 import errorHandler from './errorHandler'
+
 
 export default class Requester {
     private idUser: string;
@@ -10,6 +11,7 @@ export default class Requester {
     private authUrl: string;
     private token: any = null;
     private retries: number = 5;
+    private maxCalls: number = 0;
 
     constructor(idUser: string, passwordUser: string, authUrl: string) {
         axiosRetry(axios, { retries: this.retries });
@@ -40,6 +42,8 @@ export default class Requester {
             if (err.response && err.response.status == 401) {
                 await this.authenticate();
 
+                if (this.reachedMaxCalls()) return this.errorMessage(401);
+                this.maxCalls++;
                 return await this.get(URL, options, authenticated);
             } else {
                 errorHandler(err, this.get.name);
@@ -71,6 +75,9 @@ export default class Requester {
         } catch (err) {
             if (err.response && err.response.status == 401) {
                 await this.authenticate();
+
+                if (this.reachedMaxCalls()) return this.errorMessage(401);
+                this.maxCalls++;
                 return await this.post(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.post.name);
@@ -102,6 +109,9 @@ export default class Requester {
         } catch (err) {
             if (err.response && err.response.status == 401) {
                 await this.authenticate();
+
+                if (this.reachedMaxCalls()) return this.errorMessage(401);
+                this.maxCalls++;
                 return await this.put(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.put.name);
@@ -132,6 +142,9 @@ export default class Requester {
         } catch (err) {
             if (err.response && err.response.status == 401) {
                 await this.authenticate();
+
+                if (this.reachedMaxCalls()) return this.errorMessage(401);
+                this.maxCalls++;
                 return await this.delete(URL, options, authenticated);
             } else {
                 errorHandler(err, this.delete.name);
@@ -163,4 +176,12 @@ export default class Requester {
         data: 'failed',
         status,
     });
+
+    private reachedMaxCalls = (): boolean => {
+        if(this.maxCalls > 4) {
+            this.maxCalls = 0;
+            return true;
+        }
+        return false;
+    }
 }
