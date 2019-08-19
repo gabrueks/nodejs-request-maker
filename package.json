@@ -1,0 +1,32 @@
+{
+  "name": "nodejs-refresh-token",
+  "version": "1.0.0",
+  "description": "Node.js lib for authentication",
+  "types": "lib/index.d.ts",
+  "main": "lib/index.js",
+  "files": [
+    "lib/**/*"
+  ],
+  "scripts": {
+    "test": "jest --config jestconfig.json",
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
+  "keywords": [
+    "nodejs",
+    "auth"
+  ],
+  "author": "Gabriel Bolzi de Souza (ambev)",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/node": "^12.7.2",
+    "tslint": "^5.18.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "typescript": "^3.5.3"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "axios-retry": "^3.1.2"
+  }
+}
