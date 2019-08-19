@@ -60,8 +60,6 @@ export default class Requester {
             if (!this.token) this.authenticate();
         }
 
-        await this.authenticate();
-
         try {
             const { data, status } = await axios.post(URL, payloadData, options);
 
@@ -92,8 +90,6 @@ export default class Requester {
             if (!this.token) this.authenticate();
         }
 
-        await this.authenticate();
-
         try {
             const { data, status } = await axios.put(URL, payloadData, options);
 
@@ -122,8 +118,6 @@ export default class Requester {
             }
             if (!this.token) this.authenticate();
         }
-
-        await this.authenticate();
 
         try {
             const { data, status } = await axios.delete(URL, options);
