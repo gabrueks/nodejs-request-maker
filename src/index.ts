@@ -43,7 +43,8 @@ export default class Requester {
                 return await this.get(URL, options, authenticated);
             } else {
                 errorHandler(err, this.get.name);
-                return this.errorMessage();
+                return this.errorMessage(err.response &&
+                    err.response.status ? err.response.status : 500);
             }
         }
     }
@@ -73,7 +74,8 @@ export default class Requester {
                 return await this.post(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.post.name);
-                return this.errorMessage();
+                return this.errorMessage(err.response &&
+                    err.response.status ? err.response.status : 500);
             }
         }
     }
@@ -103,7 +105,8 @@ export default class Requester {
                 return await this.put(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.put.name);
-                return this.errorMessage();
+                return this.errorMessage(err.response &&
+                    err.response.status ? err.response.status : 500);
             }
         }
     }
@@ -132,7 +135,8 @@ export default class Requester {
                 return await this.delete(URL, options, authenticated);
             } else {
                 errorHandler(err, this.delete.name);
-                return this.errorMessage();
+                return this.errorMessage(err.response &&
+                    err.response.status ? err.response.status : 500);
             }
         }
     }
@@ -147,15 +151,16 @@ export default class Requester {
             });
 
             this.token = data['access_token'];
-        } catch(error) {
-            errorHandler(error, 'authenticate')
+        } catch(err) {
+            errorHandler(err, 'authenticate')
             this.token = 'Not authenticated';
-            return this.errorMessage();
+            return this.errorMessage(err.response &&
+                err.response.status ? err.response.status : 500);
         }
     }
 
-    private errorMessage = () => ({
-        failed: true,
-        message: 'Fail to request.',
+    private errorMessage = (status: number) => ({
+        data: 'failed',
+        status,
     });
 }
