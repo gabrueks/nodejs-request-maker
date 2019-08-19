@@ -5,10 +5,9 @@ const axiosRetry = require('axios-retry');
 import errorHandler from './errorHandler'
 
 export default class Requester {
-    public idUser: string;
-    public passwordUser: string;
-    public authUrl: string;
-
+    private idUser: string;
+    private passwordUser: string;
+    private authUrl: string;
     private token: any = null;
     private retries: number = 5;
 
@@ -29,6 +28,8 @@ export default class Requester {
             }
         }
 
+        await this.authenticate();
+
         try {
             const { data, status } = await axios.get(URL, options);
 
@@ -37,7 +38,7 @@ export default class Requester {
                 status
             };
         } catch (err) {
-            if (err.response && err.response.status == 401 || !this.token) {
+            if (err.response && err.response.status == 401) {
                 await this.authenticate();
 
                 return await this.get(URL, options, authenticated);
@@ -59,15 +60,17 @@ export default class Requester {
             }
         }
 
+        await this.authenticate();
+
         try {
             const { data, status } = await axios.post(URL, payloadData, options);
 
-            return { 
+            return {
                 data,
                 status
             };
         } catch (err) {
-            if (err.response && err.response.status == 401 || !this.token) {
+            if (err.response && err.response.status == 401) {
                 await this.authenticate();
                 return await this.post(URL, payloadData, options, authenticated);
             } else {
@@ -88,6 +91,8 @@ export default class Requester {
             }
         }
 
+        await this.authenticate();
+
         try {
             const { data, status } = await axios.put(URL, payloadData, options);
 
@@ -96,7 +101,7 @@ export default class Requester {
                 status
             };
         } catch (err) {
-            if (err.response && err.response.status == 401 || !this.token) {
+            if (err.response && err.response.status == 401) {
                 await this.authenticate();
                 return await this.put(URL, payloadData, options, authenticated);
             } else {
@@ -116,6 +121,8 @@ export default class Requester {
             }
         }
 
+        await this.authenticate();
+
         try {
             const { data, status } = await axios.delete(URL, options);
 
@@ -124,7 +131,7 @@ export default class Requester {
                 status
             };
         } catch (err) {
-            if (err.response && err.response.status == 401 || !this.token) {
+            if (err.response && err.response.status == 401) {
                 await this.authenticate();
                 return await this.delete(URL, options, authenticated);
             } else {
@@ -154,5 +161,5 @@ export default class Requester {
     private errorMessage = () => ({
         failed: true,
         message: 'Fail to request.',
-    })
+    });
 }
