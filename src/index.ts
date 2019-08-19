@@ -26,9 +26,8 @@ export default class Requester {
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
+            if (!this.token) this.authenticate();
         }
-
-        await this.authenticate();
 
         try {
             const { data, status } = await axios.get(URL, options);
@@ -58,6 +57,7 @@ export default class Requester {
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
+            if (!this.token) this.authenticate();
         }
 
         await this.authenticate();
@@ -89,6 +89,7 @@ export default class Requester {
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
+            if (!this.token) this.authenticate();
         }
 
         await this.authenticate();
@@ -119,6 +120,7 @@ export default class Requester {
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
+            if (!this.token) this.authenticate();
         }
 
         await this.authenticate();
