@@ -30,9 +30,12 @@ export default class Requester {
         }
 
         try {
-            const { data } = await axios.get(URL, options);
+            const { data, status } = await axios.get(URL, options);
 
-            return data;
+            return { 
+                data,
+                status
+            };
         } catch (err) {
             if (err.response && err.response.status == 401 || !this.token) {
                 await this.authenticate();
@@ -57,9 +60,12 @@ export default class Requester {
         }
 
         try {
-            const { data } = await axios.post(URL, payloadData, options);
+            const { data, status } = await axios.post(URL, payloadData, options);
 
-            return data;
+            return { 
+                data,
+                status
+            };
         } catch (err) {
             if (err.response && err.response.status == 401 || !this.token) {
                 await this.authenticate();
@@ -83,9 +89,12 @@ export default class Requester {
         }
 
         try {
-            const { data } = await axios.put(URL, payloadData, options);
+            const { data, status } = await axios.put(URL, payloadData, options);
 
-            return data;
+            return { 
+                data,
+                status
+            };
         } catch (err) {
             if (err.response && err.response.status == 401 || !this.token) {
                 await this.authenticate();
@@ -108,9 +117,12 @@ export default class Requester {
         }
 
         try {
-            const { data } = await axios.delete(URL, options);
+            const { data, status } = await axios.delete(URL, options);
 
-            return data;
+            return { 
+                data,
+                status
+            };
         } catch (err) {
             if (err.response && err.response.status == 401 || !this.token) {
                 await this.authenticate();
