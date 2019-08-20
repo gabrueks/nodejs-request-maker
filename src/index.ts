@@ -47,8 +47,7 @@ export default class Requester {
                 return await this.get(URL, options, authenticated);
             } else {
                 errorHandler(err, this.get.name);
-                return this.errorMessage(err.response &&
-                    err.response.status ? err.response.status : 500);
+                throw err;
             }
         }
     }
@@ -81,8 +80,7 @@ export default class Requester {
                 return await this.post(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.post.name);
-                return this.errorMessage(err.response &&
-                    err.response.status ? err.response.status : 500);
+                throw err;
             }
         }
     }
@@ -115,8 +113,7 @@ export default class Requester {
                 return await this.put(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.put.name);
-                return this.errorMessage(err.response &&
-                    err.response.status ? err.response.status : 500);
+                throw err;
             }
         }
     }
@@ -148,8 +145,7 @@ export default class Requester {
                 return await this.delete(URL, options, authenticated);
             } else {
                 errorHandler(err, this.delete.name);
-                return this.errorMessage(err.response &&
-                    err.response.status ? err.response.status : 500);
+                throw err;
             }
         }
     }
@@ -167,8 +163,7 @@ export default class Requester {
         } catch(err) {
             errorHandler(err, 'authenticate')
             this.token = 'Not authenticated';
-            return this.errorMessage(err.response &&
-                err.response.status ? err.response.status : 500);
+            throw err;
         }
     }
 
