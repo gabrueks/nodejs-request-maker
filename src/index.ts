@@ -178,7 +178,7 @@ export default class Requester {
     });
 
     private reachedMaxCalls = (): boolean => {
-        if(this.maxCalls > 4) {
+        if(this.maxCalls >= 2) {
             this.maxCalls = 0;
             return true;
         }
