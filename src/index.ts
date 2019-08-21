@@ -65,7 +65,7 @@ export default class Requester {
                 Authorization: `Bearer ${this.token}`
             }
         }
-        console.log(this.token)
+
         try {
             const { data, status } = await axios.post(URL, payloadData, options);
 
