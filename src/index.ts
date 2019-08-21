@@ -25,10 +25,11 @@ export default class Requester {
         options: AxiosRequestConfig = {},
         authenticated: boolean): Promise<any> => {
         if (authenticated) {
+            if (!this.token) await this.authenticate();
+
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
-            if (!this.token) this.authenticate();
         }
 
         try {
@@ -58,12 +59,13 @@ export default class Requester {
         options: AxiosRequestConfig = {},
         authenticated: boolean = false): Promise<any> => {
         if (authenticated) {
+            if (!this.token) await this.authenticate();
+
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
-            if (!this.token) this.authenticate();
         }
-
+        console.log(this.token)
         try {
             const { data, status } = await axios.post(URL, payloadData, options);
 
@@ -91,10 +93,11 @@ export default class Requester {
         options: AxiosRequestConfig = {},
         authenticated: boolean = false): Promise<any> => {
         if (authenticated) {
+            if (!this.token) await this.authenticate();
+
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
-            if (!this.token) this.authenticate();
         }
 
         try {
@@ -123,10 +126,11 @@ export default class Requester {
         options: AxiosRequestConfig = {},
         authenticated: boolean = false): Promise<any> => {
         if (authenticated) {
+            if (!this.token) await this.authenticate();
+
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`
             }
-            if (!this.token) this.authenticate();
         }
 
         try {
