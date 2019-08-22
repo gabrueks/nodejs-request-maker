@@ -1,17 +1,18 @@
-import axios, { AxiosRequestConfig, AxiosStatic } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios';
 // Axios retry doesnt accept ES6^
 const axiosRetry = require('axios-retry');
 
-import errorHandler from './errorHandler'
+import errorHandler from './errorHandler';
 
 
 export default class Requester {
     private idUser: string;
     private passwordUser: string;
     private authUrl: string;
+    // tslint:disable-next-line:no-any
     private token: any = null;
-    private retries: number = 5;
-    private maxCalls: number = 0;
+    private retries = 5;
+    private maxCalls = 0;
 
     constructor(idUser: string, passwordUser: string, authUrl: string) {
         axiosRetry(axios, { retries: this.retries });
@@ -20,16 +21,17 @@ export default class Requester {
         this.authUrl = authUrl;
     }
 
-    public get = async (
+    get = async (
         URL: string,
         options: AxiosRequestConfig = {},
+        // tslint:disable-next-line:no-any
         authenticated: boolean): Promise<any> => {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
             options['headers'] = {
-                Authorization: `Bearer ${this.token}`
-            }
+                Authorization: `Bearer ${this.token}`,
+            };
         }
 
         try {
@@ -37,15 +39,15 @@ export default class Requester {
 
             return { 
                 data,
-                status
+                status,
             };
         } catch (err) {
-            if (err.response && err.response.status == 401) {
+            if (err.response && err.response.status === 401) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
                 this.maxCalls++;
-                return await this.get(URL, options, authenticated);
+                return this.get(URL, options, authenticated);
             } else {
                 errorHandler(err, this.get.name);
                 throw err;
@@ -53,17 +55,18 @@ export default class Requester {
         }
     }
 
-    public post = async (
+    post = async (
         URL: string,
         payloadData?: {},
         options: AxiosRequestConfig = {},
-        authenticated: boolean = false): Promise<any> => {
+        // tslint:disable-next-line:no-any
+        authenticated = false): Promise<any> => {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
             options['headers'] = {
-                Authorization: `Bearer ${this.token}`
-            }
+                Authorization: `Bearer ${this.token}`,
+            };
         }
 
         try {
@@ -71,15 +74,15 @@ export default class Requester {
 
             return {
                 data,
-                status
+                status,
             };
         } catch (err) {
-            if (err.response && err.response.status == 401) {
+            if (err.response && err.response.status === 401) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
                 this.maxCalls++;
-                return await this.post(URL, payloadData, options, authenticated);
+                return this.post(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.post.name);
                 throw err;
@@ -87,17 +90,18 @@ export default class Requester {
         }
     }
 
-    public put = async (
+    put = async (
         URL: string,
         payloadData?: {},
         options: AxiosRequestConfig = {},
-        authenticated: boolean = false): Promise<any> => {
+        // tslint:disable-next-line:no-any
+        authenticated = false): Promise<any> => {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
             options['headers'] = {
-                Authorization: `Bearer ${this.token}`
-            }
+                Authorization: `Bearer ${this.token}`,
+            };
         }
 
         try {
@@ -105,15 +109,15 @@ export default class Requester {
 
             return { 
                 data,
-                status
+                status,
             };
         } catch (err) {
-            if (err.response && err.response.status == 401) {
+            if (err.response && err.response.status === 401) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
                 this.maxCalls++;
-                return await this.put(URL, payloadData, options, authenticated);
+                return this.put(URL, payloadData, options, authenticated);
             } else {
                 errorHandler(err, this.put.name);
                 throw err;
@@ -121,16 +125,17 @@ export default class Requester {
         }
     }
 
-    public delete = async (
+    delete = async (
         URL: string,
         options: AxiosRequestConfig = {},
-        authenticated: boolean = false): Promise<any> => {
+        // tslint:disable-next-line:no-any
+        authenticated = false): Promise<any> => {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
             options['headers'] = {
-                Authorization: `Bearer ${this.token}`
-            }
+                Authorization: `Bearer ${this.token}`,
+            };
         }
 
         try {
@@ -138,15 +143,15 @@ export default class Requester {
 
             return { 
                 data,
-                status
+                status,
             };
         } catch (err) {
-            if (err.response && err.response.status == 401) {
+            if (err.response && err.response.status === 401) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
                 this.maxCalls++;
-                return await this.delete(URL, options, authenticated);
+                return this.delete(URL, options, authenticated);
             } else {
                 errorHandler(err, this.delete.name);
                 throw err;
@@ -159,13 +164,13 @@ export default class Requester {
             const { data } = await axios.post(this.authUrl, null, {
                 auth: {
                     username: this.idUser,
-                    password: this.passwordUser
-                }
+                    password: this.passwordUser,
+                },
             });
 
             this.token = data['access_token'];
         } catch(err) {
-            errorHandler(err, 'authenticate')
+            errorHandler(err, 'authenticate');
             this.token = 'Not authenticated';
             throw err;
         }

@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 export default (err: AxiosError, funcName: string): void => {
     if (err.response) {
         console.error(
-            `Response error on ${funcName}. The request was made and the server responded.`,
+            `Response error on ${funcName}. The request was made and the server responded.`
         );
         console.error('Response data error: ');
         console.error(err.response.data);
@@ -12,7 +12,7 @@ export default (err: AxiosError, funcName: string): void => {
         console.error(err.response.headers);
     } else if (err.request) {
         console.error(
-            `Response error on ${funcName}. The request returned but no response received.`,
+            `Response error on ${funcName}. The request returned but no response received.`
         );
         console.error('Response request error: ');
         console.error(err.request);
