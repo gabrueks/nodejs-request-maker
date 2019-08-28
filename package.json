@@ -5,11 +5,11 @@
   "types": "lib/index.d.ts",
   "main": "lib/index.js",
   "jest": {
-    "transform": { 
+    "transform": {
       "^.+\\.ts$": "ts-jest"
     },
     "testRegex": "\\.spec\\.ts",
-    "moduleFileExtensions": [ 
+    "moduleFileExtensions": [
       "ts",
       "tsx",
       "js",

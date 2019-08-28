@@ -31,6 +31,7 @@ export default class Requester {
 
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`,
+                ...options['headers'],
             };
         }
 
@@ -66,6 +67,7 @@ export default class Requester {
 
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`,
+                ...options['headers'],
             };
         }
 
@@ -101,6 +103,7 @@ export default class Requester {
 
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`,
+                ...options['headers'],
             };
         }
 
@@ -135,6 +138,7 @@ export default class Requester {
 
             options['headers'] = {
                 Authorization: `Bearer ${this.token}`,
+                ...options['headers'],
             };
         }
 
