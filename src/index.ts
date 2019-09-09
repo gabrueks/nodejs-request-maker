@@ -43,7 +43,7 @@ export default class Requester {
                 status,
             };
         } catch (err) {
-            if (err.response && err.response.status === 401) {
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
@@ -79,7 +79,7 @@ export default class Requester {
                 status,
             };
         } catch (err) {
-            if (err.response && err.response.status === 401) {
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
@@ -115,7 +115,7 @@ export default class Requester {
                 status,
             };
         } catch (err) {
-            if (err.response && err.response.status === 401) {
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
@@ -150,7 +150,7 @@ export default class Requester {
                 status,
             };
         } catch (err) {
-            if (err.response && err.response.status === 401) {
+            if (err.response && (err.response.status === 401 || err.response.status === 403)) {
                 await this.authenticate();
 
                 if (this.reachedMaxCalls()) return this.errorMessage(401);
