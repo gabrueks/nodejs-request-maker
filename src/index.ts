@@ -195,6 +195,9 @@ export default class Requester {
     return false;
   };
 
+  /**
+   * This method replace the values of the given object
+   */
   private changeAuthorizationHeader = (options: AxiosRequestConfig): void => {
     options["headers"] = {
       ...options["headers"],
