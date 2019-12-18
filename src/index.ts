@@ -1,9 +1,7 @@
+import errorHandler from './errorHandler';
 import axios, { AxiosRequestConfig } from 'axios';
 // Axios retry doesnt accept ES6^
 const axiosRetry = require('axios-retry');
-
-import errorHandler from './errorHandler';
-
 
 export default class Requester {
     private idUser: string;
@@ -29,10 +27,7 @@ export default class Requester {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
-            options['headers'] = {
-                Authorization: `Bearer ${this.token}`,
-                ...options['headers'],
-            };
+            this.changeAuthorizationHeader(options);
         }
 
         try {
@@ -65,10 +60,7 @@ export default class Requester {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
-            options['headers'] = {
-                Authorization: `Bearer ${this.token}`,
-                ...options['headers'],
-            };
+            this.changeAuthorizationHeader(options);
         }
 
         try {
@@ -101,10 +93,7 @@ export default class Requester {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
-            options['headers'] = {
-                Authorization: `Bearer ${this.token}`,
-                ...options['headers'],
-            };
+            this.changeAuthorizationHeader(options);
         }
 
         try {
@@ -136,10 +125,7 @@ export default class Requester {
         if (authenticated) {
             if (!this.token) await this.authenticate();
 
-            options['headers'] = {
-                Authorization: `Bearer ${this.token}`,
-                ...options['headers'],
-            };
+            this.changeAuthorizationHeader(options);
         }
 
         try {
@@ -191,5 +177,12 @@ export default class Requester {
             return true;
         }
         return false;
+    }
+
+    private changeAuthorizationHeader(options: AxiosRequestConfig) {
+        options['headers'] = {
+            ...options['headers'],
+            Authorization: `Bearer ${this.token}`,
+        };
     }
 }
