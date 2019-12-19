@@ -28,9 +28,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      );
+      )(options["headers"]);
     }
 
     try {
@@ -67,9 +67,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      );
+      )(options["headers"]);
     }
 
     try {
@@ -106,9 +106,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      );
+      )(options["headers"]);
     }
 
     try {
@@ -144,9 +144,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      );
+      )(options["headers"]);
     }
 
     try {
@@ -203,7 +203,9 @@ export default class Requester {
     return false;
   };
 
-  private replaceAxiosRequestAuthorizationHeader(options["headers"]) = (headers: object): object => {
+  private replaceAxiosRequestAuthorizationHeader = (
+    headers: object
+  ): object => {
     return {
       ...headers,
       Authorization: `Bearer ${this.token}`
