@@ -28,7 +28,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+        options["headers"]
+      );
     }
 
     try {
@@ -65,7 +67,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+        options["headers"]
+      );
     }
 
     try {
@@ -102,7 +106,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+        options["headers"]
+      );
     }
 
     try {
@@ -138,7 +144,9 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options["headers"])(
+        options["headers"]
+      );
     }
 
     try {
@@ -195,12 +203,9 @@ export default class Requester {
     return false;
   };
 
-  /**
-   * This method replace the values of the given object
-   */
-  private changeAuthorizationHeader = (options: AxiosRequestConfig): void => {
-    options["headers"] = {
-      ...options["headers"],
+  private replaceAxiosRequestAuthorizationHeader(options["headers"]) = (headers: object): object => {
+    return {
+      ...headers,
       Authorization: `Bearer ${this.token}`
     };
   };
