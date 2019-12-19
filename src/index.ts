@@ -30,7 +30,7 @@ export default class Requester {
 
       options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      )(options["headers"]);
+      );
     }
 
     try {
@@ -69,7 +69,7 @@ export default class Requester {
 
       options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      )(options["headers"]);
+      );
     }
 
     try {
@@ -108,7 +108,7 @@ export default class Requester {
 
       options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      )(options["headers"]);
+      );
     }
 
     try {
@@ -146,7 +146,7 @@ export default class Requester {
 
       options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
         options["headers"]
-      )(options["headers"]);
+      );
     }
 
     try {
