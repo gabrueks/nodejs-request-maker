@@ -28,9 +28,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
-        options["headers"]
-      );
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -67,9 +65,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
-        options["headers"]
-      );
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -106,9 +102,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
-        options["headers"]
-      );
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -144,9 +138,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
-        options["headers"]
-      );
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -203,9 +195,7 @@ export default class Requester {
     return false;
   };
 
-  private replaceAxiosRequestAuthorizationHeader = (
-    headers: object
-  ): object => {
+  private replaceAxiosRequestAuthorizationHeader = ({ headers = {} } : { headers: object }): object => {
     return {
       ...headers,
       Authorization: `Bearer ${this.token}`
