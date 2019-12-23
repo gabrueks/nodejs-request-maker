@@ -1,4 +1,3 @@
-import errorHandler from "./errorHandler";
 import axios, { AxiosRequestConfig } from "axios";
 // Axios retry doesnt accept ES6^
 const axiosRetry = require("axios-retry");
@@ -28,7 +27,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -44,6 +43,10 @@ export default class Requester {
         (err.response.status === 401 || err.response.status === 403)
       ) {
         await this.authenticate();
+
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
 
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
@@ -65,7 +68,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -81,6 +84,10 @@ export default class Requester {
         (err.response.status === 401 || err.response.status === 403)
       ) {
         await this.authenticate();
+
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
 
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
@@ -102,7 +109,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -118,6 +125,10 @@ export default class Requester {
         (err.response.status === 401 || err.response.status === 403)
       ) {
         await this.authenticate();
+
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
 
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
@@ -138,7 +149,7 @@ export default class Requester {
     if (authenticated) {
       if (!this.token) await this.authenticate();
 
-      this.changeAuthorizationHeader(options);
+      options["headers"] = this.replaceAxiosRequestAuthorizationHeader(options);
     }
 
     try {
@@ -154,6 +165,10 @@ export default class Requester {
         (err.response.status === 401 || err.response.status === 403)
       ) {
         await this.authenticate();
+
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
 
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
@@ -173,7 +188,6 @@ export default class Requester {
           password: this.passwordUser
         }
       });
-
       this.token = data["access_token"];
     } catch (err) {
       errorHandler(err, "authenticate");
@@ -195,12 +209,11 @@ export default class Requester {
     return false;
   };
 
-  /**
-   * This method replace the values of the given object
-   */
-  private changeAuthorizationHeader = (options: AxiosRequestConfig): void => {
-    options["headers"] = {
-      ...options["headers"],
+  private replaceAxiosRequestAuthorizationHeader = ({
+    headers = {}
+  }: AxiosRequestConfig): object => {
+    return {
+      ...headers,
       Authorization: `Bearer ${this.token}`
     };
   };
