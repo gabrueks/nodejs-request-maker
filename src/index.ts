@@ -1,4 +1,3 @@
-import errorHandler from "./errorHandler";
 import axios, { AxiosRequestConfig } from "axios";
 // Axios retry doesnt accept ES6^
 const axiosRetry = require("axios-retry");
@@ -45,6 +44,10 @@ export default class Requester {
       ) {
         await this.authenticate();
 
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
+
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
         return this.get(URL, options, authenticated);
@@ -81,6 +84,10 @@ export default class Requester {
         (err.response.status === 401 || err.response.status === 403)
       ) {
         await this.authenticate();
+
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
 
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
@@ -119,6 +126,10 @@ export default class Requester {
       ) {
         await this.authenticate();
 
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
+
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
         return this.put(URL, payloadData, options, authenticated);
@@ -155,6 +166,10 @@ export default class Requester {
       ) {
         await this.authenticate();
 
+        options["headers"] = this.replaceAxiosRequestAuthorizationHeader(
+          options
+        );
+
         if (this.reachedMaxCalls()) return this.errorMessage(401);
         this.maxCalls++;
         return this.delete(URL, options, authenticated);
@@ -173,7 +188,6 @@ export default class Requester {
           password: this.passwordUser
         }
       });
-
       this.token = data["access_token"];
     } catch (err) {
       errorHandler(err, "authenticate");
@@ -195,7 +209,11 @@ export default class Requester {
     return false;
   };
 
-  private replaceAxiosRequestAuthorizationHeader = ({ headers = {} } : { headers: object }): object => {
+  private replaceAxiosRequestAuthorizationHeader = ({
+    headers = {}
+  }: {
+    headers: object;
+  }): object => {
     return {
       ...headers,
       Authorization: `Bearer ${this.token}`
