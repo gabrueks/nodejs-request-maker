@@ -211,9 +211,7 @@ export default class Requester {
 
   private replaceAxiosRequestAuthorizationHeader = ({
     headers = {}
-  }: {
-    headers: object;
-  }): object => {
+  }: AxiosRequestConfig): object => {
     return {
       ...headers,
       Authorization: `Bearer ${this.token}`
